@@ -1,0 +1,49 @@
+﻿id;namen;adres;email;allergieen;ronde_vorig_jaar;beperkingen
+K01;Hugo en Yara Namaak;Wilgenhof 83, Voorbeelddorp;koppel01@example.nl;;2;
+K02;Teun en Fleur Placebo;Wilgenhof 108, Voorbeelddorp;koppel02@example.nl;;4;
+K03;Finn en Hugo Demoor;Molenweg 58, Voorbeelddorp;koppel03@example.nl;vegetarisch, geen paddenstoelen;2;
+K04;Lotte en Sanne Dummink;Wilgenhof 82, Voorbeelddorp;koppel04@example.nl;veganistisch;3;
+K05;Jesse en Ward Testman;Parklaan 47, Voorbeelddorp;koppel05@example.nl;;4;
+K06;Joris en Lisa Placebo;Lindenplein 51, Voorbeelddorp;koppel06@example.nl;;4;
+K07;Vera en Lisa Namaak;Kastanjelaan 74, Voorbeelddorp;koppel07@example.nl;glutenvrij;1;
+K08;Joris en Vera Proefsma;Lindenplein 114, Voorbeelddorp;koppel08@example.nl;vegetarisch;4;
+K09;Maud en Roos Namaak;Kerkpad 86, Voorbeelddorp;koppel09@example.nl;;4;
+K10;Thijs en Joris Fictief;Zonnebloemstraat 107, Voorbeelddorp;koppel10@example.nl;notenallergie;4;
+K11;Koen en Mees Fictief;Zonnebloemstraat 89, Voorbeelddorp;koppel11@example.nl;;4;
+K12;Teun en Carlijn Demoor;Parklaan 59, Voorbeelddorp;koppel12@example.nl;;3;
+K13;Lars en Joris Dummink;Lindenplein 9, Voorbeelddorp;koppel13@example.nl;;;
+K14;Marit en Fleur Proefsma;Lindenplein 118, Voorbeelddorp;koppel14@example.nl;notenallergie;1;
+K15;Marit en Pim Voorbeeld;Schoolstraat 6, Voorbeelddorp;koppel15@example.nl;;;
+K16;Lotte en Jesse Testman;Parklaan 86, Voorbeelddorp;koppel16@example.nl;;4;
+K17;Iris en Maud Fictief;Lindenplein 76, Voorbeelddorp;koppel17@example.nl;zwanger (geen rauwe kaas of rauw vlees);4;
+K18;Iris en Ward Namaak;Kerkpad 50, Voorbeelddorp;koppel18@example.nl;;2;
+K19;Greetje en Sanne Voorbeeld;Kastanjelaan 107, Voorbeelddorp;koppel19@example.nl;;1;niet ronde 4
+K20;Yara en Ward Verzonnen;Parklaan 117, Voorbeelddorp;koppel20@example.nl;vegetarisch, geen paddenstoelen;2;
+K21;Gijs en Niels Modelstra;Schoolstraat 44, Voorbeelddorp;koppel21@example.nl;;1;
+K22;Carlijn en Marit Speelveld;Dorpsstraat 6, Voorbeelddorp;koppel22@example.nl;;;niet ronde 2
+K23;Vera en Bram Proefsma;Wilgenhof 28, Voorbeelddorp;koppel23@example.nl;;2;
+K24;Lars en Sanne Demoor;Kerkpad 69, Voorbeelddorp;koppel24@example.nl;;3;
+K25;Lars en Roos Verzonnen;Lindenplein 100, Voorbeelddorp;koppel25@example.nl;;2;
+K26;Vera en Noor Voorbeeld;Wilgenhof 102, Voorbeelddorp;koppel26@example.nl;;1;
+K27;Olga en Anna Voorbeeld;Lindenplein 83, Voorbeelddorp;koppel27@example.nl;;2;
+K28;Lotte en Kim Oefenaar;Wilgenhof 88, Voorbeelddorp;koppel28@example.nl;;1;
+K29;Sem en Teun Placebo;Beukenhof 73, Voorbeelddorp;koppel29@example.nl;geen varkensvlees;2;
+K30;Roos en Greetje Modelstra;Dorpsstraat 14, Voorbeelddorp;koppel30@example.nl;;2;
+K31;Greetje en Lisa Oefenaar;Zonnebloemstraat 76, Voorbeelddorp;koppel31@example.nl;;3;
+K32;Roos en Eva Testman;Kerkpad 111, Voorbeelddorp;koppel32@example.nl;;4;
+K33;Daan en Greetje Fictief;Kastanjelaan 40, Voorbeelddorp;koppel33@example.nl;zwanger (geen rauwe kaas of rauw vlees);3;
+K34;Stijn en Carlijn Modelstra;Parklaan 78, Voorbeelddorp;koppel34@example.nl;vegetarisch, geen paddenstoelen;1;
+K35;Lisa en Roos Modelstra;Zonnebloemstraat 105, Voorbeelddorp;koppel35@example.nl;;4;
+K36;Tessa en Ruben Demoor;Molenweg 39, Voorbeelddorp;koppel36@example.nl;;1;
+K37;Ruben en Marit Namaak;Kastanjelaan 93, Voorbeelddorp;koppel37@example.nl;;1;
+K38;Iris en Gijs Oefenaar;Schoolstraat 83, Voorbeelddorp;koppel38@example.nl;;4;
+K39;Lotte en Fleur Modelstra;Kerkpad 31, Voorbeelddorp;koppel39@example.nl;;2;
+K40;Bram en Maud Speelveld;Wilgenhof 51, Voorbeelddorp;koppel40@example.nl;;2;niet ronde 3
+K41;Maud en Vera Modelstra;Zonnebloemstraat 41, Voorbeelddorp;koppel41@example.nl;vegetarisch;1;
+K42;Lisa en Roos Oefenaar;Wilgenhof 97, Voorbeelddorp;koppel42@example.nl;;1;
+K43;Pim en Vera Testman;Beukenhof 87, Voorbeelddorp;koppel43@example.nl;;4;
+K44;Mees en Olga Namaak;Zonnebloemstraat 44, Voorbeelddorp;koppel44@example.nl;;4;
+K45;Teun en Vera Speelveld;Schoolstraat 40, Voorbeelddorp;koppel45@example.nl;schaaldierenallergie;1;
+K46;Gijs en Fleur Testman;Dorpsstraat 11, Voorbeelddorp;koppel46@example.nl;zwanger (geen rauwe kaas of rauw vlees);2;
+K47;Greetje en Bram Namaak;Beukenhof 109, Voorbeelddorp;koppel47@example.nl;;1;
+K48;Sanne en Maud Namaak;Dorpsstraat 66, Voorbeelddorp;koppel48@example.nl;glutenvrij;3;

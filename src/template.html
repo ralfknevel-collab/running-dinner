@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running Dinner indelen</title>
+<style>
+  :root { --groen: #0b7a3b; --groen-licht: #e9f5ee; --rood: #b3261e; --rood-licht: #fdecea; --rand: #d7ddd9; --tekst: #1c2420; --grijs: #5d6964; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--tekst); background: #f6f8f7; }
+  main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 60px; }
+  h1 { color: var(--groen); margin: 0 0 4px; font-size: 30px; }
+  h2 { color: var(--groen); font-size: 20px; margin: 0 0 10px; }
+  .intro { color: var(--grijs); margin: 0 0 20px; }
+  section { background: #fff; border: 1px solid var(--rand); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .stap { display: inline-block; width: 28px; height: 28px; line-height: 28px; text-align: center; border-radius: 50%; background: var(--groen); color: #fff; font-weight: 700; margin-right: 8px; font-size: 15px; }
+  #drop { border: 2px dashed var(--groen); border-radius: 12px; padding: 28px 16px; text-align: center; background: var(--groen-licht); cursor: pointer; }
+  #drop.over { background: #d3ecdd; }
+  #drop strong { display: block; font-size: 18px; }
+  button, .knop { font: inherit; font-weight: 600; border: 1px solid var(--groen); background: var(--groen); color: #fff; border-radius: 8px; padding: 10px 16px; cursor: pointer; }
+  button.licht { background: #fff; color: var(--groen); }
+  button:hover { filter: brightness(1.08); }
+  button:focus-visible, #drop:focus-visible, summary:focus-visible { outline: 3px solid #f0b400; outline-offset: 2px; }
+  .knoppen { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .melding { border-radius: 10px; padding: 14px 16px; margin: 0 0 12px; font-weight: 600; }
+  .goed { background: var(--groen-licht); color: var(--groen); border: 1px solid #b7dcc5; }
+  .fout { background: var(--rood-licht); color: var(--rood); border: 1px solid #f3c1bc; }
+  .let-op { background: #fff7e0; color: #6b4e00; border: 1px solid #f0dc9c; font-weight: 400; }
+  .melding ul { margin: 6px 0 0; padding-left: 20px; font-weight: 400; }
+  .klein { color: var(--grijs); font-size: 14px; }
+  details { margin-top: 12px; }
+  summary { cursor: pointer; color: var(--groen); font-weight: 600; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .tabs button { background: #fff; color: var(--groen); padding: 7px 14px; }
+  .tabs button[aria-selected="true"] { background: var(--groen); color: #fff; }
+  .tabel { overflow-x: auto; border: 1px solid var(--rand); border-radius: 8px; max-height: 560px; overflow-y: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rand); vertical-align: top; white-space: nowrap; }
+  td:last-child { white-space: normal; min-width: 220px; }
+  th { background: var(--groen-licht); position: sticky; top: 0; }
+  tr.nieuw-ronde td { border-top: 3px solid var(--groen); }
+  code { background: #eef1ef; padding: 1px 5px; border-radius: 4px; }
+  [hidden] { display: none !important; }
+  ol { padding-left: 22px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Running Dinner indelen</h1>
+  <p class="intro">Maakt de indeling, controleert die en zet het bestand voor de bevestigingsmail klaar. Alles gebeurt op deze computer: de deelnemerslijst wordt nergens naartoe gestuurd.</p>
+
+  <section>
+    <h2><span class="stap">1</span>Kies de deelnemerslijst</h2>
+    <div id="drop" tabindex="0" role="button" aria-label="Kies de deelnemerslijst">
+      <strong>Klik hier of sleep het bestand hierheen</strong>
+      <span class="klein">Excel (.xlsx) of CSV, in volgorde van inschrijving</span>
+    </div>
+    <input type="file" id="bestand" accept=".xlsx,.xlsm,.csv,.txt" hidden>
+    <div class="knoppen">
+      <button class="licht" id="voorbeeld">Leeg voorbeeldbestand downloaden</button>
+      <button class="licht" id="demo">Uitproberen met 48 verzonnen koppels</button>
+    </div>
+    <details>
+      <summary>Welke kolommen moeten erin staan?</summary>
+      <p>De eerste regel bevat de kolomnamen. Elke volgende regel is een koppel.</p>
+      <ul>
+        <li><code>id</code>: uniek nummer of code per koppel</li>
+        <li><code>namen</code>: bijvoorbeeld "Anna en Bram Jansen"</li>
+        <li><code>adres</code>: waar het koppel ontvangt</li>
+        <li><code>email</code>: per koppel een ander e-mailadres</li>
+        <li><code>allergieen</code>: allergieën en dieetwensen, leeg als er niets is</li>
+        <li><code>ronde_vorig_jaar</code>: 1, 2, 3 of 4; leeg voor nieuwe deelnemers</li>
+      </ul>
+      <p>Zet de koppels in volgorde van inschrijving. Is het aantal geen veelvoud van 4, dan worden de laatste inschrijvers reservekoppel.</p>
+    </details>
+  </section>
+
+  <section id="resultaat" hidden>
+    <h2><span class="stap">2</span>Uitkomst</h2>
+    <div id="meldingen"></div>
+    <div id="na-indeling" hidden>
+      <div class="knoppen" style="margin-bottom:16px">
+        <button class="licht" id="opnieuw">Andere indeling maken</button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="perRonde" aria-selected="true">Per ronde</button>
+        <button role="tab" data-tab="perKoppel" aria-selected="false">Per koppel</button>
+        <button role="tab" data-tab="controle" aria-selected="false">Controle</button>
+      </div>
+      <div class="tabel" id="tabel"></div>
+    </div>
+  </section>
+
+  <section id="downloads" hidden>
+    <h2><span class="stap">3</span>Bestanden opslaan</h2>
+    <div class="knoppen">
+      <button id="dl-indeling">Indeling (Excel)</button>
+      <button id="dl-laposta">Laposta-importbestand (CSV)</button>
+      <button class="licht" id="dl-laposta-xlsx">Laposta-importbestand (Excel)</button>
+      <button class="licht" id="dl-rapport">Controlerapport</button>
+      <button class="licht" id="dl-historie">Rondes voor volgend jaar</button>
+    </div>
+    <p class="klein">Bewaar na afloop alleen "Rondes voor volgend jaar": daar staan geen allergieën in. Verwijder de andere bestanden en de lijst in Laposta.</p>
+    <details>
+      <summary>Zo verstuur je de bevestigingsmail met Laposta</summary>
+      <ol>
+        <li>Maak in Laposta een aparte lijst aan, bijvoorbeeld "Running Dinner".</li>
+        <li>Maak onder Relaties, Kenmerken lijst, Velden vier tekstvelden aan: <code>namen</code>, <code>ronde</code>, <code>gerecht</code> en <code>allergieen_gasten</code>.</li>
+        <li>Ga naar Relaties, de lijst, Toevoegen, Bestand importeren en kies het Laposta-importbestand. Koppel elke kolom aan het veld met dezelfde naam. Zien de letters er vreemd uit, gebruik dan de Excel-versie.</li>
+        <li>Voeg in de mailtekst de velden in met de knop Relatievariabelen. Ze verschijnen als <code>{{namen}}</code>, <code>{{ronde}}</code>, <code>{{gerecht}}</code> en <code>{{allergieen_gasten}}</code>.</li>
+        <li>Stuur eerst een proefmail naar jezelf. Zet jezelf daarvoor met ingevulde velden in de lijst, anders zie je de kale <code>{{...}}</code>.</li>
+      </ol>
+    </details>
+  </section>
+</main>
+
+<script>/*XLSX*/</script>
+<script>/*CORE*/</script>
+<script>
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  let stand = null; // {koppels, reserves, waarschuwingen, tafels, laposta, controles, tabellen, seed}
+  let tab = "perRonde";
+
+  function el(tag, tekst, klasse) {
+    const e = document.createElement(tag);
+    if (tekst != null) e.textContent = tekst;
+    if (klasse) e.className = klasse;
+    return e;
+  }
+  function melding(klasse, titel, punten) {
+    const d = el("div", titel, "melding " + klasse);
+    if (punten && punten.length) {
+      const ul = el("ul");
+      punten.forEach((p) => ul.appendChild(el("li", p)));
+      d.appendChild(ul);
+    }
+    $("meldingen").appendChild(d);
+  }
+
+  function verwerk(rijen) {
+    $("resultaat").hidden = false;
+    $("meldingen").textContent = "";
+    $("na-indeling").hidden = true;
+    $("downloads").hidden = true;
+    const inv = RD.leesKoppels(rijen);
+    if (inv.fouten.length) {
+      melding("fout", "De deelnemerslijst klopt nog niet. Pas het bestand aan en kies het opnieuw.", inv.fouten);
+      stand = null;
+      return;
+    }
+    stand = { koppels: inv.koppels, reserves: inv.reserves, waarschuwingen: inv.waarschuwingen, seed: 1 };
+    deelIn();
+  }
+
+  function deelIn() {
+    $("meldingen").textContent = "";
+    const s = stand;
+    s.tafels = RD.maakIndeling(s.koppels, s.seed);
+    if (!s.tafels) {
+      melding("fout", "De kookrondes zijn niet te verdelen: te veel koppels verzorgden vorig jaar dezelfde ronde. Per ronde zijn precies " + s.koppels.length / 4 + " gastkoppels nodig.");
+      return;
+    }
+    s.laposta = RD.lapostaRijen(s.koppels, s.tafels);
+    s.controles = RD.controleer(s.koppels, s.tafels, s.laposta);
+    s.tabellen = RD.tabellen(s.koppels, s.tafels);
+    const n = s.koppels.length, fout = s.controles.reduce((t, c) => t + c[1].length, 0);
+    if (fout) melding("fout", "Let op: " + fout + " overtreding(en) gevonden. Gebruik deze indeling niet en bekijk het tabblad Controle.");
+    else melding("goed", "Indeling gemaakt en alle controles geslaagd: " + n + " koppels (" + 2 * n + " personen), " + n / 4 + " tafels per ronde.");
+    if (s.reserves.length) melding("let-op", "Reservekoppel (laatste inschrijvers, niet ingedeeld en niet in het Laposta-bestand):", s.reserves.map((k) => k.namen + " (" + k.id + ")"));
+    if (s.waarschuwingen.length) melding("let-op", "Let op:", s.waarschuwingen);
+    $("na-indeling").hidden = false;
+    $("downloads").hidden = !!fout;
+    toonTab();
+  }
+
+  function toonTab() {
+    document.querySelectorAll(".tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === tab)));
+    let rijen;
+    if (tab === "controle") rijen = [["Controle", "Uitslag", "Overtredingen"]].concat(stand.controles.map((c) => [c[0], c[1].length ? "FOUT" : "OK", c[1].join("; ")]));
+    else rijen = stand.tabellen[tab];
+    const tabel = el("table"), kop = el("tr");
+    rijen[0].forEach((k) => kop.appendChild(el("th", k)));
+    const thead = el("thead"); thead.appendChild(kop); tabel.appendChild(thead);
+    const body = el("tbody");
+    rijen.slice(1).forEach((rij, i) => {
+      const tr = el("tr");
+      if (tab === "perRonde" && i > 0 && rij[0] !== rijen[i][0]) tr.className = "nieuw-ronde";
+      rij.forEach((c) => tr.appendChild(el("td", String(c))));
+      body.appendChild(tr);
+    });
+    tabel.appendChild(body);
+    $("tabel").textContent = "";
+    $("tabel").appendChild(tabel);
+  }
+
+  // ---------------------------------------------------------- bestanden
+
+  function leesBestand(file) {
+    const lezer = new FileReader();
+    lezer.onload = function () {
+      try {
+        const buf = new Uint8Array(lezer.result);
+        let rijen;
+        if (/\.(xlsx|xlsm|xls)$/i.test(file.name)) {
+          const wb = XLSX.read(buf, { type: "array" });
+          rijen = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: false, defval: "" });
+        } else {
+          let tekst;
+          try { tekst = new TextDecoder("utf-8", { fatal: true }).decode(buf); }
+          catch (e) { tekst = new TextDecoder("windows-1252").decode(buf); }
+          rijen = RD.leesCsv(tekst);
+        }
+        verwerk(rijen);
+      } catch (e) {
+        $("resultaat").hidden = false;
+        $("meldingen").textContent = "";
+        melding("fout", "Het bestand kon niet worden gelezen. Is het een Excel- of CSV-bestand? (" + e.message + ")");
+      }
+    };
+    lezer.readAsArrayBuffer(file);
+  }
+
+  function opslaan(naam, inhoud, type) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([inhoud], { type: type }));
+    a.download = naam;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+  function excel(naam, bladen) { // bladen: [[titel, rijen, breedtes]]
+    const wb = XLSX.utils.book_new();
+    for (const [titel, rijen, breedtes] of bladen) {
+      const ws = XLSX.utils.aoa_to_sheet(rijen);
+      ws["!cols"] = breedtes.map((w) => ({ wch: w }));
+      XLSX.utils.book_append_sheet(wb, ws, titel);
+    }
+    XLSX.writeFile(wb, naam);
+  }
+  const lapostaTabel = () => [Object.keys(stand.laposta[0])].concat(stand.laposta.map((r) => Object.values(r)));
+  const KOP = ["id", "namen", "adres", "email", "allergieen", "ronde_vorig_jaar"];
+
+  function demoRijen() {
+    const voor = ["Anna", "Bram", "Carlijn", "Daan", "Eva", "Finn", "Greetje", "Hugo", "Iris", "Jesse", "Kim", "Lars", "Marit", "Niels", "Olga", "Pim", "Roos", "Sem", "Tessa", "Ward"];
+    const achter = ["Testman", "Voorbeeld", "Proefsma", "Fictief", "Demoor", "Oefenaar", "Modelstra", "Verzonnen"];
+    const straat = ["Kastanjelaan", "Molenweg", "Dorpsstraat", "Beukenhof", "Parklaan", "Kerkpad"];
+    const wens = ["notenallergie", "vegetarisch", "glutenvrij", "lactose-intolerant", "geen varkensvlees", "veganistisch"];
+    const rijen = [KOP];
+    for (let i = 1; i <= 48; i++) {
+      rijen.push(["K" + String(i).padStart(2, "0"), voor[i % 20] + " en " + voor[(i * 7 + 3) % 20] + " " + achter[i % 8],
+        straat[i % 6] + " " + (i * 3 + 1) + ", Voorbeelddorp", "koppel" + i + "@example.nl",
+        i % 4 === 0 ? wens[(i / 4) % 6] : "", i % 9 === 0 ? "" : String(1 + (i * 5) % 4)]);
+    }
+    return rijen;
+  }
+
+  // ---------------------------------------------------------- knoppen
+
+  const drop = $("drop");
+  drop.addEventListener("click", () => $("bestand").click());
+  drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("bestand").click(); } });
+  $("bestand").addEventListener("change", (e) => { if (e.target.files[0]) leesBestand(e.target.files[0]); e.target.value = ""; });
+  ["dragenter", "dragover"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", (e) => { if (e.dataTransfer.files[0]) leesBestand(e.dataTransfer.files[0]); });
+  window.addEventListener("dragover", (e) => e.preventDefault());
+  window.addEventListener("drop", (e) => e.preventDefault());
+
+  $("voorbeeld").addEventListener("click", () => excel("deelnemers_voorbeeld.xlsx", [["Deelnemers",
+    [KOP, ["1", "Anna en Bram Voorbeeld", "Molenweg 3, Voorbeelddorp", "anna.bram@example.nl", "notenallergie", "2"],
+      ["2", "Carlijn en Daan Fictief", "Parklaan 12, Voorbeelddorp", "carlijn.daan@example.nl", "", ""]], [8, 30, 34, 30, 30, 18]]]));
+  $("demo").addEventListener("click", () => verwerk(demoRijen()));
+  $("opnieuw").addEventListener("click", () => { stand.seed++; deelIn(); });
+  document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.tab; toonTab(); }));
+
+  $("dl-indeling").addEventListener("click", () => {
+    const bladen = [["Per ronde", stand.tabellen.perRonde, [7, 28, 7, 32, 34, 34, 34, 34, 60]],
+      ["Per koppel", stand.tabellen.perKoppel, [7, 34, 36, 50, 50, 50, 50]],
+      ["Controle", [["Controle", "Uitslag", "Overtredingen"]].concat(stand.controles.map((c) => [c[0], c[1].length ? "FOUT" : "OK", c[1].join("\n")])), [75, 10, 90]]];
+    if (stand.reserves.length) bladen.push(["Reserve", [["ID", "Namen", "E-mail"]].concat(stand.reserves.map((k) => [k.id, k.namen, k.email])), [8, 34, 34]]);
+    excel("indeling.xlsx", bladen);
+  });
+  $("dl-laposta").addEventListener("click", () => opslaan("laposta_import.csv", RD.naarCsv(lapostaTabel()), "text/csv;charset=utf-8"));
+  $("dl-laposta-xlsx").addEventListener("click", () => excel("laposta_import.xlsx", [["Laposta", lapostaTabel(), [32, 34, 10, 28, 70]]]));
+  $("dl-rapport").addEventListener("click", () => opslaan("controlerapport.txt", RD.rapportTekst(stand.koppels, stand.reserves, stand.controles, stand.waarschuwingen), "text/plain;charset=utf-8"));
+  $("dl-historie").addEventListener("click", () => opslaan("rondes_voor_volgend_jaar.csv", RD.naarCsv(stand.tabellen.historie), "text/csv;charset=utf-8"));
+})();
+</script>
+</body>
+</html>
