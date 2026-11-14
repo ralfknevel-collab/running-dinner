@@ -2,6 +2,12 @@
 
 Eén bestand, `Running Dinner indelen.html`, dat de indeling maakt, zelf controleert en het importbestand voor Laposta klaarzet. Het opent met een dubbelklik in de browser. Er hoeft niets geïnstalleerd te worden en de deelnemerslijst blijft op de eigen computer: de pagina verstuurt niets.
 
+## Online
+
+De pagina staat ook online: https://ralfknevel-collab.github.io/running-dinner/
+
+Gebruik bij voorkeur deze link om de tool te delen. Als mailbijlage (zip met het HTML-bestand) wordt hij door virusscanners geblokkeerd, omdat een HTML-bestand dat zelf downloads aanmaakt op een bekend aanvalspatroon lijkt. De online versie werkt hetzelfde: de deelnemerslijst wordt in de browser verwerkt en nergens naartoe gestuurd.
+
 ## Gebruiken
 
 1. Dubbelklik op `Running Dinner indelen.html`.
