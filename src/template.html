@@ -48,6 +48,7 @@
 <main>
   <h1>Running Dinner indelen</h1>
   <p class="intro">Maakt de indeling, controleert die en zet het bestand voor de bevestigingsmail klaar. Alles gebeurt op deze computer: de deelnemerslijst wordt nergens naartoe gestuurd.</p>
+  <p class="klein"><a href="https://ralfknevel-collab.github.io/running-dinner/handleiding/handleiding.pdf" target="_blank" rel="noopener">Handleiding met schermafbeeldingen (PDF)</a></p>
 
   <section>
     <h2><span class="stap">1</span>Kies de deelnemerslijst</h2>
@@ -70,6 +71,12 @@
         <li><code>email</code>: per koppel een ander e-mailadres</li>
         <li><code>allergieen</code>: allergieën en dieetwensen, leeg als er niets is</li>
         <li><code>ronde_vorig_jaar</code>: 1, 2, 3 of 4; leeg voor nieuwe deelnemers</li>
+        <li><code>beperkingen</code>: optioneel, een ronde die het koppel niet kan koken, geschreven als "niet ronde 3"</li>
+      </ul>
+      <p>Twee kolommen mogen erbij staan zonder dat de pagina ze gebruikt:</p>
+      <ul>
+        <li><code>tweede_mailadres</code>: het adres van de partner, om te bewaren</li>
+        <li><code>gekookt_dit_jaar</code>: na afloop in te vullen; volgend jaar wordt dit <code>ronde_vorig_jaar</code></li>
       </ul>
       <p>Zet de koppels in volgorde van inschrijving. Is het aantal geen veelvoud van 4, dan worden de laatste inschrijvers reservekoppel.</p>
     </details>
@@ -241,6 +248,7 @@
   }
   const lapostaTabel = () => [Object.keys(stand.laposta[0])].concat(stand.laposta.map((r) => Object.values(r)));
   const KOP = ["id", "namen", "adres", "email", "allergieen", "ronde_vorig_jaar"];
+  const KOP_VOL = ["id", "namen", "adres", "email", "tweede_mailadres", "allergieen", "ronde_vorig_jaar", "beperkingen", "gekookt_dit_jaar"];
 
   function demoRijen() {
     const voor = ["Anna", "Bram", "Carlijn", "Daan", "Eva", "Finn", "Greetje", "Hugo", "Iris", "Jesse", "Kim", "Lars", "Marit", "Niels", "Olga", "Pim", "Roos", "Sem", "Tessa", "Ward"];
@@ -269,8 +277,8 @@
   window.addEventListener("drop", (e) => e.preventDefault());
 
   $("voorbeeld").addEventListener("click", () => excel("deelnemers_voorbeeld.xlsx", [["Deelnemers",
-    [KOP, ["1", "Anna en Bram Voorbeeld", "Molenweg 3, Voorbeelddorp", "anna.bram@example.nl", "notenallergie", "2"],
-      ["2", "Carlijn en Daan Fictief", "Parklaan 12, Voorbeelddorp", "carlijn.daan@example.nl", "", ""]], [8, 30, 34, 30, 30, 18]]]));
+    [KOP_VOL, ["1", "Anna en Bram Voorbeeld", "Molenweg 3, Voorbeelddorp", "anna@example.nl", "bram@example.nl", "notenallergie", "2", "", ""],
+      ["2", "Carlijn en Daan Fictief", "Parklaan 12, Voorbeelddorp", "carlijn@example.nl", "", "", "", "niet ronde 3", ""]], [8, 30, 34, 30, 30, 30, 18, 22, 18]]]));
   $("demo").addEventListener("click", () => verwerk(demoRijen()));
   $("opnieuw").addEventListener("click", () => { stand.seed++; deelIn(); });
   document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.tab; toonTab(); }));

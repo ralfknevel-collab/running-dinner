@@ -14,7 +14,9 @@ Gebruik bij voorkeur deze link om de tool te delen. Als mailbijlage (zip met het
 2. Kies de deelnemerslijst (Excel of CSV), of klik op "Uitproberen met 48 verzonnen koppels".
 3. Bekijk de uitkomst en sla de bestanden op.
 
-De lijst heeft een kopregel met `id`, `namen`, `adres`, `email`, `allergieen` en `ronde_vorig_jaar`, en staat in volgorde van inschrijving. Een leeg voorbeeldbestand is in de pagina te downloaden.
+De lijst heeft een kopregel met `id`, `namen`, `adres`, `email`, `allergieen` en `ronde_vorig_jaar`, en staat in volgorde van inschrijving. Optioneel zijn `beperkingen` ("niet ronde 3") en twee kolommen die de pagina niet gebruikt: `tweede_mailadres` en `gekookt_dit_jaar`. Een leeg voorbeeldbestand is in de pagina te downloaden.
+
+Een handleiding met schermafbeeldingen staat in `handleiding/handleiding.pdf` (bron: `handleiding/handleiding.html`).
 
 ## Regels
 

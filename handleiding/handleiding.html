@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Handleiding Running Dinner indelen</title>
+<style>
+  @page { size: A4; margin: 18mm 17mm 18mm 17mm; }
+  :root { --groen: #0b7a3e; --licht: #eaf4ee; --tekst: #1d2420; --grijs: #5c6660; --lijn: #d3dbd6; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--tekst); font-size: 10.5pt; line-height: 1.5; margin: 0; }
+  h1 { color: var(--groen); font-size: 25pt; line-height: 1.15; margin: 0 0 4pt; }
+  .onder { color: var(--grijs); font-size: 12pt; margin: 0 0 16pt; }
+  h2 { color: var(--groen); font-size: 14.5pt; margin: 20pt 0 6pt; break-after: avoid; display: flex; align-items: center; gap: 8pt; }
+  h2 .nr { background: var(--groen); color: #fff; border-radius: 50%; width: 20pt; height: 20pt; font-size: 10.5pt; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  p { margin: 0 0 7pt; }
+  ol, ul { margin: 0 0 8pt; padding-left: 18pt; }
+  li { margin-bottom: 3pt; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 9.2pt; background: #f1f4f2; padding: 1pt 3.5pt; border-radius: 3pt; }
+  .kader { background: var(--licht); border: 1px solid #bfdccb; border-radius: 7pt; padding: 9pt 12pt; margin: 8pt 0 10pt; break-inside: avoid; }
+  .kader p:last-child, .kader ul:last-child { margin-bottom: 0; }
+  .let { background: #fff6dd; border-color: #ecd693; }
+  figure { margin: 8pt 0 12pt; break-inside: avoid; }
+  figure img { width: 100%; display: block; border: 1px solid var(--lijn); border-radius: 6pt; }
+  figcaption { color: var(--grijs); font-size: 9pt; margin-top: 4pt; }
+  table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 9.3pt; break-inside: avoid; }
+  th, td { border: 1px solid var(--lijn); padding: 4pt 6pt; text-align: left; vertical-align: top; }
+  th { background: var(--licht); }
+  table.blad { font-size: 6.9pt; }
+  table.blad td { white-space: nowrap; }
+  .blok { break-inside: avoid; }
+  ol { break-inside: avoid; }
+  table.blad th { background: #2f5597; color: #fff; font-family: Menlo, Consolas, monospace; font-weight: 600; font-size: 6.3pt; }
+  table.blad td, table.blad th { padding: 3pt 3pt; }
+  .nieuw { break-before: page; }
+  .voet { color: var(--grijs); font-size: 9pt; margin-top: 16pt; border-top: 1px solid var(--lijn); padding-top: 6pt; }
+</style>
+</head>
+<body>
+
+<h1>Running Dinner indelen</h1>
+<p class="onder">Handleiding bij de indeeltool</p>
+
+<p>Met de indeeltool maak je in een paar minuten de indeling voor het Running Dinner. Je kiest de deelnemerslijst, de tool verdeelt de koppels over de rondes en de tafels, controleert de uitkomst en zet de bestanden klaar voor de bevestigingsmail. De schermafbeeldingen in deze handleiding zijn gemaakt met verzonnen koppels.</p>
+
+<div class="kader">
+  <p><strong>Wat de tool regelt</strong></p>
+  <ul>
+    <li>Er zijn vier rondes: koud voorgerecht, warm voorgerecht, hoofdgerecht en dessert.</li>
+    <li>Aan elke tafel zitten vier koppels: het koppel dat kookt en drie gastkoppels.</li>
+    <li>Elk koppel kookt precies één ronde, thuis op het eigen adres.</li>
+    <li>Twee koppels komen elkaar op de avond nooit twee keer tegen.</li>
+    <li>Niemand kookt dezelfde ronde als bij de vorige editie.</li>
+  </ul>
+</div>
+
+<p>De tool staat online op <strong>https://ralfknevel-collab.github.io/running-dinner/</strong> en werkt in elke browser. De deelnemerslijst blijft op je eigen computer: de pagina verwerkt het bestand in de browser en stuurt niets door.</p>
+
+<h2><span class="nr">1</span>De deelnemerslijst klaarzetten</h2>
+
+<p>De tool leest een Excel-bestand met één koppel per regel. Gebruik voor 2027 het bestand <strong>Running Dinner 2027 (invullen).xlsx</strong>. Daarin staan de koppels van 2026 al, met de ronde die ze toen kookten.</p>
+
+<ol>
+  <li>Verwijder de regels van koppels die niet meedoen.</li>
+  <li>Voeg nieuwe koppels onderaan toe en laat bij hen de kolom <code>ronde_vorig_jaar</code> leeg.</li>
+  <li>Loop adressen, e-mailadressen en dieetwensen na.</li>
+  <li>Zet de lijst in volgorde van inschrijving en sla het bestand op.</li>
+</ol>
+
+<table class="blad">
+  <tr><th>id</th><th>namen</th><th>adres</th><th>email</th><th>tweede_mailadres</th><th>allergieen</th><th>ronde_vorig_jaar</th><th>beperkingen</th><th>gekookt_dit_jaar</th></tr>
+  <tr><td>1</td><td>Anna en Bram Voorbeeld</td><td>Molenweg 3</td><td>anna@example.nl</td><td>bram@example.nl</td><td>notenallergie</td><td>2</td><td></td><td></td></tr>
+  <tr><td>2</td><td>Carlijn en Daan Fictief</td><td>Parklaan 12</td><td>carlijn@example.nl</td><td></td><td></td><td>4</td><td>niet ronde 3</td><td></td></tr>
+  <tr><td>3</td><td>Eva en Finn Verzonnen</td><td>Dorpsstraat 8</td><td>eva@example.nl</td><td></td><td>eet geen vlees</td><td></td><td></td><td></td></tr>
+</table>
+
+<table>
+  <tr><th style="width:27%">Kolom</th><th>Wat erin staat</th></tr>
+  <tr><td><code>id</code></td><td>Volgnummer van het koppel. Elk nummer komt één keer voor. Verplicht.</td></tr>
+  <tr><td><code>namen</code></td><td>De namen zoals ze in de mail moeten staan. Verplicht.</td></tr>
+  <tr><td><code>adres</code></td><td>Het adres waar het koppel kookt. Verplicht.</td></tr>
+  <tr><td><code>email</code></td><td>Eén e-mailadres per koppel, voor de bevestigingsmail. Elk adres mag maar één keer voorkomen. Verplicht.</td></tr>
+  <tr><td><code>tweede_mailadres</code></td><td>Adres van de partner, om te bewaren. De tool gebruikt deze kolom niet.</td></tr>
+  <tr><td><code>allergieen</code></td><td>Allergieën en dieetwensen van het koppel samen. Leeg als er niets is.</td></tr>
+  <tr><td><code>ronde_vorig_jaar</code></td><td>De ronde die het koppel bij de vorige editie kookte: 1 is koud voorgerecht, 2 warm voorgerecht, 3 hoofdgerecht en 4 dessert. Leeg bij nieuwe deelnemers.</td></tr>
+  <tr><td><code>beperkingen</code></td><td>Een ronde die het koppel niet kan koken, geschreven als <code>niet ronde 3</code>. Meerdere scheid je met een puntkomma.</td></tr>
+  <tr><td><code>gekookt_dit_jaar</code></td><td>Vul je na afloop in. De tool gebruikt deze kolom niet.</td></tr>
+</table>
+
+<div class="kader let">
+  <p><strong>Let op</strong></p>
+  <ul>
+    <li>Laat de kopregel op rij 1 precies zo staan en houd het tabblad Deelnemers als eerste tabblad. De tool leest alleen het eerste tabblad.</li>
+    <li>Is het aantal koppels geen veelvoud van vier, dan worden de onderste koppels van de lijst reservekoppel. Zij worden niet ingedeeld.</li>
+    <li>De tool herkent mensen niet op naam. Doet iemand in een andere samenstelling mee dan vorige keer, controleer dan zelf de kolom <code>ronde_vorig_jaar</code>.</li>
+    <li>Er zijn minimaal 16 koppels nodig.</li>
+  </ul>
+</div>
+
+<h2><span class="nr">2</span>De lijst kiezen in de tool</h2>
+
+<div class="blok">
+<p>Open de tool in je browser. Klik op het groene vlak en kies het Excel-bestand, of sleep het bestand erheen. De indeling wordt direct gemaakt.</p>
+
+<figure>
+  <img src="img/01-start.png" alt="Startscherm van de tool met het vlak om de deelnemerslijst te kiezen">
+  <figcaption>Het startscherm. Met de knop "Uitproberen met 48 verzonnen koppels" kun je de tool eerst verkennen zonder eigen lijst.</figcaption>
+</figure>
+</div>
+
+<h2><span class="nr">3</span>De uitkomst bekijken</h2>
+
+<div class="blok">
+<p>Bovenaan staat in een groene balk of de indeling gelukt is en of alle controles geslaagd zijn. Zijn er reservekoppels, dan staan die in het gele vlak eronder.</p>
+
+<figure>
+  <img src="img/02-uitkomst.png" alt="Uitkomst met groene melding, reservekoppels en de tabel per ronde">
+  <figcaption>Het tabblad Per ronde: per tafel het adres, het koppel dat kookt en de drie gastkoppels.</figcaption>
+</figure>
+</div>
+
+<div class="blok">
+<p>De uitkomst heeft drie tabbladen. <strong>Per ronde</strong> toont alle tafels. <strong>Per koppel</strong> toont voor elk koppel de route van de avond: welke ronde het zelf kookt en bij wie het de andere rondes aanschuift. <strong>Controle</strong> toont de uitslag van elke voorwaarde.</p>
+
+<figure>
+  <img src="img/03-perkoppel.png" alt="Tabblad Per koppel met de route per koppel">
+  <figcaption>Het tabblad Per koppel.</figcaption>
+</figure>
+</div>
+
+<figure>
+  <img src="img/04-controle.png" alt="Tabblad Controle met acht voorwaarden die allemaal op OK staan">
+  <figcaption>Het tabblad Controle. Gebruik de indeling alleen als bij elke regel OK staat.</figcaption>
+</figure>
+
+<p>Bevalt de indeling niet, bijvoorbeeld omdat buren bij elkaar aan tafel zitten, klik dan op <strong>Andere indeling maken</strong>. De tool maakt een nieuwe indeling die aan dezelfde voorwaarden voldoet. Dat kun je zo vaak herhalen als je wilt. Sla een indeling die je wilt houden wel eerst op, want met elke klik vervangt de nieuwe indeling de vorige.</p>
+
+<h2><span class="nr">4</span>De bestanden opslaan</h2>
+
+<figure>
+  <img src="img/05-opslaan.png" alt="De knoppen om de bestanden op te slaan">
+  <figcaption>Onder de uitkomst staan de knoppen om de bestanden op te slaan.</figcaption>
+</figure>
+
+<table>
+  <tr><th style="width:34%">Knop</th><th>Wat je krijgt</th></tr>
+  <tr><td>Indeling (Excel)</td><td>De volledige indeling per ronde en per koppel, met de controle en de reservekoppels.</td></tr>
+  <tr><td>Laposta-importbestand</td><td>Eén regel per koppel met e-mailadres, namen, ronde, gerecht en de allergieën en dieetwensen van de eigen gasten. De gasten staan er zonder naam in.</td></tr>
+  <tr><td>Controlerapport</td><td>De uitslag van alle controles als tekstbestand.</td></tr>
+  <tr><td>Rondes voor volgend jaar</td><td>Per koppel de ronde die het kookt, zonder allergieën.</td></tr>
+</table>
+
+<h2><span class="nr">5</span>De bevestigingsmail versturen met Laposta</h2>
+
+<ol>
+  <li>Maak in Laposta een aparte lijst aan, bijvoorbeeld "Running Dinner".</li>
+  <li>Maak onder Relaties, Kenmerken lijst, Velden vier tekstvelden aan: <code>namen</code>, <code>ronde</code>, <code>gerecht</code> en <code>allergieen_gasten</code>.</li>
+  <li>Ga naar Relaties, kies de lijst, klik op Toevoegen en dan op Bestand importeren. Kies het Laposta-importbestand en koppel elke kolom aan het veld met dezelfde naam. Zien de letters er vreemd uit, gebruik dan de Excel-versie van het bestand.</li>
+  <li>Voeg in de mailtekst de velden in met de knop Relatievariabelen. Ze verschijnen als <code>{{namen}}</code>, <code>{{ronde}}</code>, <code>{{gerecht}}</code> en <code>{{allergieen_gasten}}</code>.</li>
+  <li>Stuur eerst een proefmail naar jezelf. Zet jezelf daarvoor met ingevulde velden in de lijst, anders zie je de kale codes.</li>
+</ol>
+
+<p>Dezelfde stappen staan ook in de tool zelf, onder "Zo verstuur je de bevestigingsmail met Laposta".</p>
+
+<h2><span class="nr">6</span>Als de tool de lijst niet accepteert</h2>
+
+<div class="blok">
+<p>Klopt er iets niet aan het bestand, dan maakt de tool geen indeling en zie je in een rood vlak wat er mis is. Pas het bestand aan in Excel, sla het op en kies het opnieuw.</p>
+
+<figure>
+  <img src="img/06-fout.png" alt="Foutmelding dat verplichte kolommen ontbreken">
+  <figcaption>Voorbeeld van een foutmelding: de kopregel van dit bestand heeft andere kolomnamen dan de tool verwacht.</figcaption>
+</figure>
+</div>
+
+<table>
+  <tr><th style="width:44%">Melding</th><th>Oplossing</th></tr>
+  <tr><td>Verplichte kolommen ontbreken</td><td>De kopregel is aangepast of het verkeerde tabblad staat vooraan. Zet de kolomnamen terug zoals in het invulbestand.</td></tr>
+  <tr><td>Adres of e-mailadres ontbreekt</td><td>Vul de lege cel in op de genoemde regel.</td></tr>
+  <tr><td>E-mailadres komt meerdere keren voor</td><td>Geef elk koppel een eigen adres in de kolom <code>email</code>. Laposta bewaart per adres maar één regel.</td></tr>
+  <tr><td>Ronde vorig jaar is geen ronde 1 t/m 4</td><td>Vul een cijfer van 1 tot en met 4 in, of laat de cel leeg.</td></tr>
+  <tr><td>Te weinig koppels</td><td>Onder de 16 koppels is de indeling niet te maken.</td></tr>
+</table>
+
+<h2><span class="nr">7</span>Na afloop</h2>
+
+<p>Vul in de deelnemerslijst de kolom <code>gekookt_dit_jaar</code> in met de ronde die elk koppel kookte. Die staat in het bestand "Rondes voor volgend jaar" en op het tabblad Per koppel van de indeling. Bij de volgende editie kopieer je de lijst en zet je die waarden in de kolom <code>ronde_vorig_jaar</code>. Zo weet de tool wie wat gekookt heeft.</p>
+
+<p>Bewaar verder zo weinig mogelijk. De indeling, het Laposta-bestand en de lijst in Laposta bevatten allergieën en dieetwensen. Verwijder die na het diner.</p>
+
+<p class="voet">Running Dinner indeeltool. Handleiding, november 2026.</p>
+
+</body>
+</html>
