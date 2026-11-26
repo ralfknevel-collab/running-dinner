@@ -33,24 +33,28 @@
   table.blad th { background: #2f5597; color: #fff; font-family: Menlo, Consolas, monospace; font-weight: 600; font-size: 6.3pt; }
   table.blad td, table.blad th { padding: 3pt 3pt; }
   .nieuw { break-before: page; }
+  h3 { font-size: 11.5pt; margin: 13pt 0 4pt; break-after: avoid; }
   .voet { color: var(--grijs); font-size: 9pt; margin-top: 16pt; border-top: 1px solid var(--lijn); padding-top: 6pt; }
 </style>
 </head>
 <body>
 
 <h1>Running Dinner indelen</h1>
-<p class="onder">Handleiding bij de indeeltool, november 2026</p>
+<p class="onder">Handleiding bij de indeeltool, bijgewerkt op 26 november 2026</p>
 
-<p>Met de indeeltool maak je in een paar minuten de indeling voor het Running Dinner. Je kiest de deelnemerslijst, de tool verdeelt de koppels over de rondes en de tafels, controleert de uitkomst en zet de bestanden klaar voor de bevestigingsmail. De schermafbeeldingen in deze handleiding zijn gemaakt met verzonnen koppels.</p>
+<p>Met de indeeltool maak je in een paar minuten de indeling voor het Running Dinner. Je kiest de deelnemerslijst, de tool verdeelt de koppels over de rondes en de tafels, controleert de uitkomst en zet de bestanden klaar: de indeling, het bestand voor de bevestigingsmail en de loopbriefjes. De schermafbeeldingen in deze handleiding zijn gemaakt met verzonnen koppels.</p>
 
 <div class="kader">
   <p><strong>Wat de tool regelt</strong></p>
   <ul>
-    <li>Er zijn vier rondes: koud voorgerecht, warm voorgerecht, hoofdgerecht en dessert.</li>
+    <li>Er zijn vier rondes: amuses en koud voorgerecht, warm voorgerecht, hoofdgerecht en dessert. De namen en tijden pas je zelf aan.</li>
     <li>Aan elke tafel zitten vier koppels: het koppel dat kookt en drie gastkoppels.</li>
     <li>Elk koppel kookt precies één ronde, thuis op het eigen adres.</li>
+    <li>Elk koppel kookt de gang die volgt op de gang van de vorige editie. Past dat niet voor iedereen, dan wijken zo weinig mogelijk koppels af en laat de tool zien wie dat zijn.</li>
+    <li>Nieuwe deelnemers koken niet het hoofdgerecht.</li>
     <li>Twee koppels komen elkaar op de avond nooit twee keer tegen.</li>
-    <li>Niemand kookt dezelfde ronde als bij de vorige editie.</li>
+    <li>Koppels die dezelfde gang koken komen elkaar ook tegen, zodat ze niet jaar na jaar langs elkaar heen schuiven.</li>
+    <li>Het gastkoppel krijgt per gast de allergie of dieetwens te zien, zonder namen.</li>
   </ul>
 </div>
 
@@ -58,7 +62,7 @@
 
 <h2><span class="nr">1</span>De deelnemerslijst klaarzetten</h2>
 
-<p>De tool leest een Excel-bestand met één koppel per regel. Gebruik voor 2027 het bestand <strong>Running Dinner 2027 (invullen).xlsx</strong>. Daarin staan de koppels van 2026 al, met de ronde die ze toen kookten.</p>
+<p>De tool leest een Excel-bestand met één koppel per regel. Gebruik voor 2027 het bestand <strong>Running Dinner 2027 (invullen) v2.xlsx</strong>. Daarin staan de koppels van 2026 al, met de ronde die ze toen kookten en de dieetwens per persoon.</p>
 
 <ol>
   <li>Verwijder de regels van koppels die niet meedoen.</li>
@@ -68,22 +72,22 @@
 </ol>
 
 <table class="blad">
-  <tr><th>id</th><th>namen</th><th>adres</th><th>email</th><th>tweede_mailadres</th><th>allergieen</th><th>ronde_vorig_jaar</th><th>beperkingen</th><th>gekookt_dit_jaar</th></tr>
-  <tr><td>1</td><td>Anna en Bram Voorbeeld</td><td>Molenweg 3</td><td>anna@example.nl</td><td>bram@example.nl</td><td>notenallergie</td><td>2</td><td></td><td></td></tr>
-  <tr><td>2</td><td>Carlijn en Daan Fictief</td><td>Parklaan 12</td><td>carlijn@example.nl</td><td></td><td></td><td>4</td><td>niet ronde 3</td><td></td></tr>
-  <tr><td>3</td><td>Eva en Finn Verzonnen</td><td>Dorpsstraat 8</td><td>eva@example.nl</td><td></td><td>eet geen vlees</td><td></td><td></td><td></td></tr>
+  <tr><th>id</th><th>namen</th><th>adres</th><th>email</th><th>tweede_mailadres</th><th>dieetwens_a</th><th>dieetwens_b</th><th>ronde_vorig_jaar</th><th>beperkingen</th><th>gekookt_dit_jaar</th></tr>
+  <tr><td>1</td><td>Anna en Bram Voorbeeld</td><td>Molenweg 3</td><td>anna@example.nl</td><td>bram@example.nl</td><td>allergisch voor noten</td><td></td><td>2</td><td></td><td></td></tr>
+  <tr><td>2</td><td>Carlijn en Daan Fictief</td><td>Parklaan 12</td><td>carlijn@example.nl</td><td></td><td>eet geen vlees</td><td>eet geen vlees</td><td>4</td><td>niet ronde 3</td><td></td></tr>
+  <tr><td>3</td><td>Eva en Finn Verzonnen</td><td>Dorpsstraat 8</td><td>eva@example.nl</td><td>finn@example.nl</td><td></td><td></td><td></td><td>wil ronde 2</td><td></td></tr>
 </table>
 
 <table>
   <tr><th style="width:27%">Kolom</th><th>Wat erin staat</th></tr>
   <tr><td><code>id</code></td><td>Volgnummer van het koppel. Elk nummer komt één keer voor. Verplicht.</td></tr>
-  <tr><td><code>namen</code></td><td>De namen zoals ze in de mail moeten staan. Verplicht.</td></tr>
+  <tr><td><code>namen</code></td><td>De namen zoals ze in de mail en op de loopbriefjes moeten staan. Verplicht.</td></tr>
   <tr><td><code>adres</code></td><td>Het adres waar het koppel kookt. Verplicht.</td></tr>
-  <tr><td><code>email</code></td><td>Eén e-mailadres per koppel, voor de bevestigingsmail. Elk adres mag maar één keer voorkomen. Verplicht.</td></tr>
-  <tr><td><code>tweede_mailadres</code></td><td>Adres van de partner, om te bewaren. De tool gebruikt deze kolom niet.</td></tr>
-  <tr><td><code>allergieen</code></td><td>Allergieën en dieetwensen van het koppel samen. Leeg als er niets is.</td></tr>
-  <tr><td><code>ronde_vorig_jaar</code></td><td>De ronde die het koppel bij de vorige editie kookte: 1 is koud voorgerecht, 2 warm voorgerecht, 3 hoofdgerecht en 4 dessert. Leeg bij nieuwe deelnemers.</td></tr>
-  <tr><td><code>beperkingen</code></td><td>Een ronde die het koppel niet kan koken, geschreven als <code>niet ronde 3</code>. Meerdere scheid je met een puntkomma.</td></tr>
+  <tr><td><code>email</code></td><td>E-mailadres van de eerste persoon, voor de bevestigingsmail. Verplicht.</td></tr>
+  <tr><td><code>tweede_mailadres</code></td><td>Adres van de partner. Staat hier een adres, dan krijgen beide partners de bevestigingsmail. Elk adres mag in het hele bestand maar één keer voorkomen.</td></tr>
+  <tr><td><code>dieetwens_a</code><br><code>dieetwens_b</code></td><td>De allergie of dieetwens van de eerste en van de tweede persoon, elk in de eigen kolom. Eten beide partners geen vlees, vul dat dan in beide kolommen in. Leeg als er niets is.</td></tr>
+  <tr><td><code>ronde_vorig_jaar</code></td><td>De ronde die het koppel bij de vorige editie kookte: 1 is koud voorgerecht, 2 warm voorgerecht, 3 hoofdgerecht en 4 dessert. De afkortingen kv, wv, hg en d mogen ook. Leeg bij nieuwe deelnemers.</td></tr>
+  <tr><td><code>beperkingen</code></td><td>Een ronde die het koppel niet kan koken, geschreven als <code>niet ronde 3</code>. Of een ronde waar het koppel zelf om vroeg, geschreven als <code>wil ronde 2</code>. Meerdere scheid je met een puntkomma.</td></tr>
   <tr><td><code>gekookt_dit_jaar</code></td><td>Vul je na afloop in. De tool gebruikt deze kolom niet.</td></tr>
 </table>
 
@@ -93,6 +97,7 @@
     <li>Laat de kopregel op rij 1 precies zo staan en houd het tabblad Deelnemers als eerste tabblad. De tool leest alleen het eerste tabblad.</li>
     <li>Is het aantal koppels geen veelvoud van vier, dan worden de onderste koppels van de lijst reservekoppel. Zij worden niet ingedeeld.</li>
     <li>De tool herkent mensen niet op naam. Doet iemand in een andere samenstelling mee dan vorige keer, controleer dan zelf de kolom <code>ronde_vorig_jaar</code>.</li>
+    <li>Een lijst met de oude kolom <code>allergieen</code> (één wens per koppel) werkt nog, maar de tool waarschuwt dan dat niet te zien is voor hoeveel personen de wens geldt.</li>
     <li>Er zijn minimaal 16 koppels nodig.</li>
   </ul>
 </div>
@@ -108,28 +113,47 @@
 </figure>
 </div>
 
+<div class="blok">
+<p>Onder <strong>Gangen, tijden en silo's aanpassen</strong> staan de namen van de vier gangen, de tijd waarop de gasten komen en de tijd waarop de envelop met de volgende adressen open mag. Deze namen en tijden komen in de mail, op de loopbriefjes en in de tabellen. Schrijf de naam zoals hij in een zin past, bijvoorbeeld "het Hoofdgerecht". De pagina onthoudt wat je invult.</p>
+
+<figure>
+  <img src="img/07-instellingen.png" alt="Het blok met de namen en tijden van de vier rondes en het vinkje Silo's doorbreken">
+  <figcaption>De namen en tijden van de rondes. Controleer de tijden voordat je de bestanden opslaat.</figcaption>
+</figure>
+</div>
+
 <h2><span class="nr">3</span>De uitkomst bekijken</h2>
 
 <div class="blok">
-<p>Bovenaan staat in een groene balk of de indeling gelukt is en of alle controles geslaagd zijn. Zijn er reservekoppels, dan staan die in het gele vlak eronder.</p>
+<p>Bovenaan staat in een groene balk of de indeling gelukt is en of alle controles geslaagd zijn. Daaronder staan twee blauwe vlakken met uitleg over de kookrondes en de silo's. Zijn er reservekoppels, dan staan die in het gele vlak.</p>
 
 <figure>
-  <img src="img/02-uitkomst.png" alt="Uitkomst met groene melding, reservekoppels en de tabel per ronde">
-  <figcaption>Het tabblad Per ronde: per tafel het adres, het koppel dat kookt en de drie gastkoppels.</figcaption>
+  <img src="img/02-uitkomst.png" alt="Uitkomst met groene melding, uitleg over kookrondes en silo's, reservekoppels en de tabel per ronde">
+  <figcaption>Het tabblad Per ronde: per tafel het adres, het koppel dat kookt en de drie gastkoppels. De kleur laat zien welke gang een koppel zelf kookt.</figcaption>
 </figure>
+</div>
+
+<div class="kader">
+  <p><strong>Kookrondes: wie kookt wat</strong></p>
+  <p>Elk koppel krijgt de gang die volgt op de gang van de vorige editie: wie het koude voorgerecht maakte, maakt nu het warme voorgerecht, en wie het dessert maakte begint weer bij het koude voorgerecht. Elke ronde heeft evenveel koks nodig. Komt dat niet uit, bijvoorbeeld door afmeldingen, dan verplaatst de tool zo weinig mogelijk koppels naar een andere gang. Het blauwe vlak noemt die koppels bij naam. Nieuwe deelnemers krijgen niet het hoofdgerecht. Wil je zelf bepalen wat een koppel kookt, zet dan <code>wil ronde 2</code> in de kolom beperkingen en kies de lijst opnieuw.</p>
+</div>
+
+<div class="kader">
+  <p><strong>Silo's doorbreken</strong></p>
+  <p>Koppels die dezelfde gang koken schuiven elk jaar samen een gang door. Zit aan elke tafel precies één koppel van elke gang, dan komen zij elkaar nooit tegen. De tool zet daarom aan een deel van de tafels twee gastkoppels die dezelfde gang koken. In de tabel zie je dat aan twee vakjes met dezelfde kleur op één regel. Het blauwe vlak meldt hoeveel koppels uit de eigen groep elk koppel treft. Onder de 28 koppels lukt dit niet of maar beperkt. Je zet het uit met het vinkje bij de namen en tijden.</p>
 </div>
 
 <div class="blok">
-<p>De uitkomst heeft drie tabbladen. <strong>Per ronde</strong> toont alle tafels. <strong>Per koppel</strong> toont voor elk koppel de route van de avond: welke ronde het zelf kookt en bij wie het de andere rondes aanschuift. <strong>Controle</strong> toont de uitslag van elke voorwaarde.</p>
+<p>De uitkomst heeft drie tabbladen. <strong>Per ronde</strong> toont alle tafels. <strong>Per koppel</strong> toont voor elk koppel wat het vorige keer kookte, wat het nu kookt en bij wie het de andere rondes aanschuift. <strong>Controle</strong> toont de uitslag van elke voorwaarde.</p>
 
 <figure>
-  <img src="img/03-perkoppel.png" alt="Tabblad Per koppel met de route per koppel">
-  <figcaption>Het tabblad Per koppel.</figcaption>
+  <img src="img/03-perkoppel.png" alt="Tabblad Per koppel met de vorige ronde, de nieuwe ronde en de route per koppel">
+  <figcaption>Het tabblad Per koppel. In de kolom Kookronde staat of een koppel doorschuift, afwijkt, nieuw is of om deze ronde vroeg.</figcaption>
 </figure>
 </div>
 
 <figure>
-  <img src="img/04-controle.png" alt="Tabblad Controle met acht voorwaarden die allemaal op OK staan">
+  <img src="img/04-controle.png" alt="Tabblad Controle met voorwaarden die allemaal op OK staan">
   <figcaption>Het tabblad Controle. Gebruik de indeling alleen als bij elke regel OK staat.</figcaption>
 </figure>
 
@@ -145,24 +169,111 @@
 <table>
   <tr><th style="width:34%">Knop</th><th>Wat je krijgt</th></tr>
   <tr><td>Indeling (Excel)</td><td>De volledige indeling per ronde en per koppel, met de controle en de reservekoppels.</td></tr>
-  <tr><td>Laposta-importbestand</td><td>Eén regel per koppel met e-mailadres, namen, ronde, gerecht en de allergieën en dieetwensen van de eigen gasten. De gasten staan er zonder naam in.</td></tr>
-  <tr><td>Controlerapport</td><td>De uitslag van alle controles als tekstbestand.</td></tr>
+  <tr><td>Laposta-importbestand</td><td>Eén regel per e-mailadres met de namen, de ronde, de gang, de tijd waarop de gasten komen en de dieetwensen van de eigen gasten. Gebruik de Excel-versie. De gasten staan er zonder naam in.</td></tr>
+  <tr><td>Loopbriefjes (Word)</td><td>De briefjes met het adres voor de volgende gang, klaar om af te drukken en te knippen. Zie hoofdstuk 5.</td></tr>
+  <tr><td>Controlerapport</td><td>De uitslag van alle controles als tekstbestand, met de uitleg over kookrondes en silo's.</td></tr>
   <tr><td>Rondes voor volgend jaar</td><td>Per koppel de ronde die het kookt, zonder allergieën.</td></tr>
 </table>
 
-<h2><span class="nr">5</span>De bevestigingsmail versturen met Laposta</h2>
+<h2><span class="nr">5</span>De loopbriefjes</h2>
 
+<p>De knop <strong>Loopbriefjes (Word)</strong> geeft één Word-bestand. Je kunt het in Word nog aanpassen, bijvoorbeeld om een plaatje toe te voegen of een adres toe te lichten.</p>
+
+<ul>
+  <li><strong>Startbriefjes.</strong> Vooraan staat voor elk koppel dat in de eerste ronde te gast is een briefje met het eerste adres. De briefjes staan op alfabet.</li>
+  <li><strong>Enveloppen.</strong> Daarna volgt voor elke tafel van ronde 1, 2 en 3 een eigen bladzijde. Bovenaan staat bij welk gastkoppel de envelop hoort en hoe laat hij open mag. Daaronder staan vier briefjes: voor elk koppel aan die tafel het adres van de volgende gang. Wie de volgende gang zelf kookt, leest hoe laat de gasten komen.</li>
+</ul>
+
+<p>Druk het bestand pas af als de indeling vaststaat. Maak je daarna toch een andere indeling, sla dan ook de loopbriefjes en het Laposta-bestand opnieuw op: de drie bestanden horen bij elkaar.</p>
+
+<figure style="width:55%">
+  <img src="img/08-loopbriefjes.png" alt="Bladzijde uit de loopbriefjes: kop met gastkoppel en openingstijd, daaronder vier briefjes met stippellijnen">
+  <figcaption>Bovenkant van een bladzijde voor één envelop. Knip langs de stippellijnen.</figcaption>
+</figure>
+
+<h2 class="nieuw"><span class="nr">6</span>De bevestigingsmail versturen met Laposta</h2>
+
+<p>Laposta stuurt elk koppel dezelfde mail, met op een paar plekken de eigen gegevens. Die gegevens komen uit het Laposta-importbestand. Daarin staat één regel per e-mailadres. Een koppel met twee adressen staat er dus twee keer in, met dezelfde gegevens.</p>
+
+<table>
+  <tr><th style="width:27%">Kolom</th><th>Voorbeeld</th></tr>
+  <tr><td><code>email</code></td><td>anna@example.nl</td></tr>
+  <tr><td><code>namen</code></td><td>Anna en Bram Voorbeeld</td></tr>
+  <tr><td><code>ronde</code></td><td>ronde 2</td></tr>
+  <tr><td><code>gerecht</code></td><td>het Warme Voorgerecht en de Spoom</td></tr>
+  <tr><td><code>tijd_gasten</code></td><td>19.30</td></tr>
+  <tr><td><code>dieetwensen_gasten</code></td><td>&bull; allergisch voor noten &bull; eet geen vlees &bull; eet geen vlees<br>Elk bolletje hoort bij één gast. Heeft geen van de gasten een wens, dan staat er "geen dieetwensen opgegeven".</td></tr>
+</table>
+
+<h3>Stap A. Eenmalig: de lijst en de velden aanmaken</h3>
 <ol>
-  <li>Maak in Laposta een aparte lijst aan, bijvoorbeeld "Running Dinner".</li>
-  <li>Maak onder Relaties, Kenmerken lijst, Velden vier tekstvelden aan: <code>namen</code>, <code>ronde</code>, <code>gerecht</code> en <code>allergieen_gasten</code>.</li>
-  <li>Ga naar Relaties, kies de lijst, klik op Toevoegen en dan op Bestand importeren. Kies het Laposta-importbestand en koppel elke kolom aan het veld met dezelfde naam. Zien de letters er vreemd uit, gebruik dan de Excel-versie van het bestand.</li>
-  <li>Voeg in de mailtekst de velden in met de knop Relatievariabelen. Ze verschijnen als <code>{{namen}}</code>, <code>{{ronde}}</code>, <code>{{gerecht}}</code> en <code>{{allergieen_gasten}}</code>.</li>
-  <li>Stuur eerst een proefmail naar jezelf. Zet jezelf daarvoor met ingevulde velden in de lijst, anders zie je de kale codes.</li>
+  <li>Klik in Laposta op <strong>Relaties</strong> en dan op <strong>Nieuwe lijst</strong>. Geef de lijst een naam, bijvoorbeeld "Running Dinner", en kies de afzender.</li>
+  <li>Open de lijst, ga naar <strong>Kenmerken lijst</strong> en dan naar <strong>Velden</strong>. Klik op <strong>Nieuw veld</strong>.</li>
+  <li>Maak zo vijf velden aan met precies deze namen: <code>namen</code>, <code>ronde</code>, <code>gerecht</code>, <code>tijd_gasten</code> en <code>dieetwensen_gasten</code>. Kies als veldtype Tekst. "In formulier" en "Verplicht" laat je uit.</li>
+  <li>Laposta maakt bij elk veld zelf een code tussen accolades, zoals <code>{{namen}}</code>. Die code staat op de pagina Velden. Kijk daar hoe de code van elk veld precies heet.</li>
+</ol>
+<p>De lijst en de velden maak je één keer aan. Gebruik daarna elk jaar dezelfde lijst.</p>
+
+<h3>Stap B. Het bestand importeren</h3>
+<ol>
+  <li>Sla in de tool het <strong>Laposta-importbestand (Excel)</strong> op. Het heet <code>laposta_import.xlsx</code>.</li>
+  <li>Ga in Laposta naar <strong>Relaties</strong>, kies de lijst, klik op <strong>Toevoegen</strong> en dan op <strong>Bestand importeren</strong>.</li>
+  <li>Vink aan "Ik bevestig dat alle nieuwe relaties 'goed' zijn" en klik op <strong>Verder met importeren bestand</strong>. Hiermee verklaar je dat deze mensen de mail van jou mogen krijgen. De deelnemers hebben zich zelf ingeschreven.</li>
+  <li>Klik op <strong>Selecteren bestand</strong> en kies <code>laposta_import.xlsx</code>.</li>
+  <li>Vink <strong>Nieuwe relaties toevoegen</strong> en <strong>Bestaande relaties aanpassen</strong> aan. Laat <strong>Relaties uitschrijven</strong> uit: dat schrijft iedereen uit die niet in het bestand staat.</li>
+  <li>Laposta toont nu elke kolom van het bestand met een paar waarden eruit. Kies bij elke kolom onder "Kolom koppelen?" het veld met dezelfde naam: de kolom <code>email</code> onder het veld E-mailadres, de kolom <code>namen</code> onder het veld namen, en zo verder voor alle zes.</li>
+  <li>Klik op <strong>Importeren</strong> en daarna op <strong>Bekijk resultaten</strong>. Het aantal relaties hoort gelijk te zijn aan het aantal regels in het bestand.</li>
 </ol>
 
-<p>Dezelfde stappen staan ook in de tool zelf, onder "Zo verstuur je de bevestigingsmail met Laposta".</p>
+<div class="kader let">
+  <p><strong>Let op</strong></p>
+  <ul>
+    <li>Laposta bekijkt een nieuw account en soms ook een nieuwe import voordat je mag versturen. Importeer daarom niet op de laatste dag.</li>
+    <li>Wie zich eerder voor deze lijst heeft uitgeschreven, wordt niet opnieuw toegevoegd en krijgt de mail niet. Stuur die koppels hun gegevens los.</li>
+    <li>Maak je na het importeren een andere indeling, importeer dan het nieuwe bestand op dezelfde manier. De oude gegevens worden overschreven.</li>
+  </ul>
+</div>
 
-<h2><span class="nr">6</span>Als de tool de lijst niet accepteert</h2>
+<h3>Stap C. De mail schrijven</h3>
+<ol>
+  <li>Maak een nieuwe campagne en kies de lijst als ontvangers.</li>
+  <li>Typ de tekst. Klik op de plek waar een gegeven moet komen op <strong>Relatievariabelen</strong>, linksboven in het tekstvak, en kies het veld. Er verschijnt een code tussen accolades. Bij het verzenden zet Laposta daar de gegevens van het koppel neer.</li>
+  <li>In het onderwerp van de mail doe je hetzelfde met de knop <strong>Personaliseren</strong>.</li>
+</ol>
+
+<div class="kader">
+  <p><strong>Voorbeeld van de tekst</strong></p>
+  <p>Beste {{namen}},</p>
+  <p>Jullie zijn ingedeeld voor {{gerecht}}. Jullie gasten arriveren om {{tijd_gasten}} uur.</p>
+  <p>Er schuiven drie stellen bij jullie aan, zodat je in totaal met acht eters bent. De volgende dieetwensen hebben jullie gasten bij ons aangegeven (elk bolletje hoort bij één deelnemer):</p>
+  <p>{{dieetwensen_gasten}}</p>
+  <p>Willen jullie hier rekening mee houden bij het samenstellen van de gang?</p>
+  <p>[Alinea over de start van de avond en de enveloppen]</p>
+  <p>Succes met de voorbereidingen!</p>
+</div>
+
+<h3>Stap D. Eerst testen</h3>
+<p>Een testmail naar een willekeurig adres laat de codes leeg of letterlijk zien. Alleen een adres dat in de lijst staat en als testadres is aangemerkt, krijgt de eigen gegevens te zien.</p>
+<ol>
+  <li>Ga naar <strong>Relaties</strong>, kies de lijst en klik op <strong>Bekijken</strong>. Zoek je eigen adres op, open <strong>Details</strong> en vink aan "Gebruik dit e-mailadres om campagnes mee te testen". Doe je zelf niet mee, voeg jezelf dan als relatie toe en vul de vijf velden met de hand in.</li>
+  <li>Klik bij de campagne op <strong>Testmail</strong> en kies je eigen adres.</li>
+  <li>Controleer in de testmail of de namen, de gang, de tijd en de dieetwensen er goed in staan en of er nergens een code met accolades is blijven staan.</li>
+</ol>
+
+<h3>Stap E. Per gang een andere alinea</h3>
+<p>Wil je dat alleen de koks van één ronde een bepaalde alinea zien, gebruik dan <strong>Conditionele inhoud</strong>. Klik op het tekstblok, klik op het pictogram Conditionele inhoud en maak een regel: het veld <code>ronde</code> "is gelijk aan" <code>ronde 1</code>. Het blok staat dan alleen in de mail van de koks van ronde 1. Op dezelfde manier kun je de zin over dieetwensen alleen tonen als het veld <code>dieetwensen_gasten</code> "niet gelijk is aan" <code>geen dieetwensen opgegeven</code>. Dit werkt ook in het gratis account.</p>
+
+<h3>Stap F. De afzender</h3>
+<p>Verstuur je vanaf een gratis adres zoals Gmail, dan vervangt Laposta het afzendadres door een adres van Laposta zelf. Zulke mail belandt sneller in de spam. Met een eigen domeinnaam voorkom je dat.</p>
+<ol>
+  <li>Ga naar <strong>Instellingen</strong>, <strong>Afzendadressen</strong> en klik op <strong>Nieuw afzendadres</strong>. Vul een adres op je eigen domein in. Laposta stuurt een bevestiging naar dat adres, dus het moet mail kunnen ontvangen. Stel daarvoor bij de aanbieder van je domeinnaam in dat mail naar dit adres wordt doorgestuurd naar je eigen mailbox.</li>
+  <li>Ga naar <strong>Instellingen</strong>, <strong>Authenticatie</strong> en klik op <strong>Toon instructies</strong>. Laposta toont een paar regels voor de DNS van je domein. Neem ze bij de aanbieder van je domeinnaam precies zo over.</li>
+  <li>Wacht een paar uur en klik in Laposta op <strong>Activeren</strong>. Stuur daarna opnieuw een testmail.</li>
+</ol>
+
+<p class="voet">De namen van de knoppen en menu's in dit hoofdstuk komen uit de hulppagina's van Laposta (docs.laposta.org), geraadpleegd in november 2026. Ze kunnen op het scherm iets anders heten.</p>
+
+<h2><span class="nr">7</span>Als de tool de lijst niet accepteert</h2>
 
 <div class="blok">
 <p>Klopt er iets niet aan het bestand, dan maakt de tool geen indeling en zie je in een rood vlak wat er mis is. Pas het bestand aan in Excel, sla het op en kies het opnieuw.</p>
@@ -177,12 +288,14 @@
   <tr><th style="width:44%">Melding</th><th>Oplossing</th></tr>
   <tr><td>Verplichte kolommen ontbreken</td><td>De kopregel is aangepast of het verkeerde tabblad staat vooraan. Zet de kolomnamen terug zoals in het invulbestand.</td></tr>
   <tr><td>Adres of e-mailadres ontbreekt</td><td>Vul de lege cel in op de genoemde regel.</td></tr>
-  <tr><td>E-mailadres komt meerdere keren voor</td><td>Geef elk koppel een eigen adres in de kolom <code>email</code>. Laposta bewaart per adres maar één regel.</td></tr>
+  <tr><td>E-mailadres komt meerdere keren voor</td><td>Elk adres mag maar één keer in het bestand staan, ook in de kolom <code>tweede_mailadres</code>. Laposta bewaart per adres maar één regel.</td></tr>
   <tr><td>Ronde vorig jaar is geen ronde 1 t/m 4</td><td>Vul een cijfer van 1 tot en met 4 in, of laat de cel leeg.</td></tr>
+  <tr><td>Twee verschillende gewenste rondes</td><td>In de kolom beperkingen staat bij één koppel twee keer "wil ronde". Laat er één staan.</td></tr>
+  <tr><td>De kookrondes zijn niet te verdelen</td><td>Te veel koppels kunnen of willen alleen dezelfde ronde koken. Haal een wens of beperking weg.</td></tr>
   <tr><td>Te weinig koppels</td><td>Onder de 16 koppels is de indeling niet te maken.</td></tr>
 </table>
 
-<h2><span class="nr">7</span>Na afloop</h2>
+<h2><span class="nr">8</span>Na afloop</h2>
 
 <p>Vul in de deelnemerslijst de kolom <code>gekookt_dit_jaar</code> in met de ronde die elk koppel kookte. Die staat in het bestand "Rondes voor volgend jaar" en op het tabblad Per koppel van de indeling. Bij de volgende editie kopieer je de lijst en zet je die waarden in de kolom <code>ronde_vorig_jaar</code>. Zo weet de tool wie wat gekookt heeft.</p>
 

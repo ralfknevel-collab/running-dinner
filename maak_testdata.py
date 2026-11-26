@@ -26,7 +26,7 @@ def main() -> None:
     pad.parent.mkdir(parents=True, exist_ok=True)
     with open(pad, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f, delimiter=";")
-        w.writerow(["id", "namen", "adres", "email", "allergieen", "ronde_vorig_jaar", "beperkingen"])
+        w.writerow(["id", "namen", "adres", "email", "tweede_mailadres", "dieetwens_a", "dieetwens_b", "ronde_vorig_jaar", "beperkingen"])
         for i in range(1, aantal + 1):
             a, b = rng.sample(VOORNAMEN, 2)
             achternaam = rng.choice(ACHTERNAMEN)
@@ -35,9 +35,11 @@ def main() -> None:
                 f"{a} en {b} {achternaam}",
                 f"{rng.choice(STRATEN)} {rng.randint(1, 120)}, Voorbeelddorp",
                 f"koppel{i:02d}@example.nl",
-                rng.choice(WENSEN) if rng.random() < 0.3 else "",
+                f"partner{i:02d}@example.nl" if rng.random() < 0.6 else "",
+                rng.choice(WENSEN) if rng.random() < 0.18 else "",  # dieetwens van de eerste persoon
+                rng.choice(WENSEN) if rng.random() < 0.18 else "",  # dieetwens van de tweede persoon
                 rng.randint(1, 4) if rng.random() < 0.85 else "",  # nieuwe deelnemers: leeg
-                f"niet ronde {rng.randint(1, 4)}" if rng.random() < 0.1 else "",
+                rng.choice([f"niet ronde {rng.randint(1, 4)}", f"wil ronde {rng.randint(1, 4)}"]) if rng.random() < 0.1 else "",
             ])
     print(f"{aantal} fictieve koppels geschreven naar {pad}")
 

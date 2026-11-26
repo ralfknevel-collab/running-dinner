@@ -42,6 +42,20 @@
   code { background: #eef1ef; padding: 1px 5px; border-radius: 4px; }
   [hidden] { display: none !important; }
   ol { padding-left: 22px; }
+  .info { background: #eef3f8; color: #223b52; border: 1px solid #c9d8e6; font-weight: 400; }
+  .info strong { font-weight: 600; }
+  table.inst { width: auto; margin: 8px 0; }
+  table.inst th, table.inst td { border: 0; padding: 4px 8px 4px 0; white-space: nowrap; position: static; background: none; }
+  table.inst td:last-child { min-width: 0; }
+  table.inst input { font: inherit; padding: 6px 8px; border: 1px solid var(--rand); border-radius: 6px; }
+  table.inst input.naam { width: 330px; max-width: 60vw; }
+  table.inst input.tijd { width: 80px; }
+  label.vink { display: flex; gap: 8px; align-items: flex-start; margin: 10px 0; }
+  label.vink input { width: 18px; height: 18px; margin-top: 3px; flex: none; }
+  .legenda { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; margin: 0 0 10px; font-size: 14px; color: var(--grijs); }
+  .legenda span.blok { display: inline-block; padding: 1px 8px; border-radius: 4px; color: var(--tekst); }
+  .g1 { background: #d9f7e6; } .g2 { background: #f9dcfb; } .g3 { background: #d3e8f6; } .g4 { background: #ffe1d1; }
+  td.wens { white-space: normal; min-width: 240px; }
 </style>
 </head>
 <body>
@@ -69,16 +83,23 @@
         <li><code>namen</code>: bijvoorbeeld "Anna en Bram Jansen"</li>
         <li><code>adres</code>: waar het koppel ontvangt</li>
         <li><code>email</code>: per koppel een ander e-mailadres</li>
-        <li><code>allergieen</code>: allergieën en dieetwensen, leeg als er niets is</li>
-        <li><code>ronde_vorig_jaar</code>: 1, 2, 3 of 4; leeg voor nieuwe deelnemers</li>
-        <li><code>beperkingen</code>: optioneel, een ronde die het koppel niet kan koken, geschreven als "niet ronde 3"</li>
+        <li><code>tweede_mailadres</code>: optioneel, het adres van de partner. Beide adressen krijgen de bevestigingsmail.</li>
+        <li><code>dieetwens_a</code> en <code>dieetwens_b</code>: de allergie of dieetwens van de eerste en van de tweede persoon, elk in de eigen kolom. Leeg als er niets is.</li>
+        <li><code>ronde_vorig_jaar</code>: 1, 2, 3 of 4 (of kv, wv, hg, d); leeg voor nieuwe deelnemers</li>
+        <li><code>beperkingen</code>: optioneel. Een ronde die het koppel niet kan koken, geschreven als "niet ronde 3", of een ronde waar het koppel om vroeg, geschreven als "wil ronde 2".</li>
       </ul>
-      <p>Twee kolommen mogen erbij staan zonder dat de pagina ze gebruikt:</p>
-      <ul>
-        <li><code>tweede_mailadres</code>: het adres van de partner, om te bewaren</li>
-        <li><code>gekookt_dit_jaar</code>: na afloop in te vullen; volgend jaar wordt dit <code>ronde_vorig_jaar</code></li>
-      </ul>
+      <p>De kolom <code>gekookt_dit_jaar</code> mag erbij staan zonder dat de pagina hem gebruikt: die vul je na afloop in, en volgend jaar wordt het <code>ronde_vorig_jaar</code>.</p>
       <p>Zet de koppels in volgorde van inschrijving. Is het aantal geen veelvoud van 4, dan worden de laatste inschrijvers reservekoppel.</p>
+    </details>
+    <details id="inst">
+      <summary>Gangen, tijden en silo's aanpassen</summary>
+      <p class="klein">De namen en tijden komen in de mail, op de loopbriefjes en in de tabellen. Schrijf de naam zoals hij in een zin past, bijvoorbeeld "het Hoofdgerecht". De pagina onthoudt wat je hier invult.</p>
+      <table class="inst">
+        <thead><tr><th></th><th>Naam van de gang</th><th>Gasten komen om</th><th>Envelop openen om</th></tr></thead>
+        <tbody id="inst-rijen"></tbody>
+      </table>
+      <label class="vink"><input type="checkbox" id="mix" checked><span><strong>Silo's doorbreken.</strong> Koppels die dezelfde gang koken schuiven elk jaar samen door en komen elkaar anders nooit tegen. Met dit vinkje zitten er soms twee koppels uit dezelfde kookgroep samen te gast aan een tafel.</span></label>
+      <div class="knoppen"><button class="licht" id="inst-terug">Standaard terugzetten</button></div>
     </details>
   </section>
 
@@ -94,6 +115,9 @@
         <button role="tab" data-tab="perKoppel" aria-selected="false">Per koppel</button>
         <button role="tab" data-tab="controle" aria-selected="false">Controle</button>
       </div>
+      <div class="legenda" id="legenda">Kleur per kookgroep:
+        <span class="blok g1">kookt KV</span><span class="blok g2">kookt WV</span><span class="blok g3">kookt HG</span><span class="blok g4">kookt D</span>
+      </div>
       <div class="tabel" id="tabel"></div>
     </div>
   </section>
@@ -102,21 +126,28 @@
     <h2><span class="stap">3</span>Bestanden opslaan</h2>
     <div class="knoppen">
       <button id="dl-indeling">Indeling (Excel)</button>
-      <button id="dl-laposta">Laposta-importbestand (CSV)</button>
-      <button class="licht" id="dl-laposta-xlsx">Laposta-importbestand (Excel)</button>
+      <button id="dl-laposta-xlsx">Laposta-importbestand (Excel)</button>
+      <button id="dl-loop">Loopbriefjes (Word)</button>
+      <button class="licht" id="dl-laposta">Laposta-importbestand (CSV)</button>
       <button class="licht" id="dl-rapport">Controlerapport</button>
       <button class="licht" id="dl-historie">Rondes voor volgend jaar</button>
     </div>
     <p class="klein">Bewaar na afloop alleen "Rondes voor volgend jaar": daar staan geen allergieën in. Verwijder de andere bestanden en de lijst in Laposta.</p>
     <details>
+      <summary>Wat staat er in de loopbriefjes?</summary>
+      <p>Eén Word-bestand om af te drukken en te knippen. Vooraan staan de startbriefjes: voor elk koppel dat in de eerste ronde te gast is het eerste adres. Daarna volgt per tafel een bladzijde voor de envelop die na die gang open mag, met voor elk van de vier koppels het adres van de volgende gang. Bovenaan elke bladzijde staat bij welk gastkoppel de envelop hoort en hoe laat hij open mag. Het bestand is gewoon te bewerken in Word.</p>
+    </details>
+    <details>
       <summary>Zo verstuur je de bevestigingsmail met Laposta</summary>
+      <p>De handleiding (link bovenaan) beschrijft dit stap voor stap, met een voorbeeldtekst voor de mail. In het kort:</p>
       <ol>
-        <li>Maak in Laposta een aparte lijst aan, bijvoorbeeld "Running Dinner".</li>
-        <li>Maak onder Relaties, Kenmerken lijst, Velden vier tekstvelden aan: <code>namen</code>, <code>ronde</code>, <code>gerecht</code> en <code>allergieen_gasten</code>.</li>
-        <li>Ga naar Relaties, de lijst, Toevoegen, Bestand importeren en kies het Laposta-importbestand. Koppel elke kolom aan het veld met dezelfde naam. Zien de letters er vreemd uit, gebruik dan de Excel-versie.</li>
-        <li>Voeg in de mailtekst de velden in met de knop Relatievariabelen. Ze verschijnen als <code>{{namen}}</code>, <code>{{ronde}}</code>, <code>{{gerecht}}</code> en <code>{{allergieen_gasten}}</code>.</li>
-        <li>Stuur eerst een proefmail naar jezelf. Zet jezelf daarvoor met ingevulde velden in de lijst, anders zie je de kale <code>{{...}}</code>.</li>
+        <li>Maak in Laposta onder Relaties een lijst aan, bijvoorbeeld "Running Dinner". Gebruik elk jaar dezelfde lijst.</li>
+        <li>Ga naar Relaties, Kenmerken lijst, Velden en maak met "Nieuw veld" vijf tekstvelden aan: <code>namen</code>, <code>ronde</code>, <code>gerecht</code>, <code>tijd_gasten</code> en <code>dieetwensen_gasten</code>.</li>
+        <li>Ga naar Relaties, de lijst, Toevoegen, Bestand importeren. Kies het Laposta-importbestand (Excel) en koppel elke kolom aan het veld met dezelfde naam.</li>
+        <li>Zet in de mailtekst de velden op hun plek met de knop Relatievariabelen, bijvoorbeeld <code>{{namen}}</code> en <code>{{dieetwensen_gasten}}</code>.</li>
+        <li>Stuur eerst een testmail. Alleen een adres dat in de lijst staat en als testadres is aangevinkt laat ingevulde velden zien.</li>
       </ol>
+      <p class="klein">In het bestand staat één regel per e-mailadres. Een koppel met twee adressen staat er dus twee keer in, met dezelfde gegevens. In <code>dieetwensen_gasten</code> staat voor elke gast met een wens één bolletje, zonder namen.</p>
     </details>
   </section>
 </main>
@@ -127,8 +158,42 @@
 (function () {
   "use strict";
   const $ = (id) => document.getElementById(id);
-  let stand = null; // {koppels, reserves, waarschuwingen, tafels, laposta, controles, tabellen, seed}
+  let stand = null; // {koppels, reserves, waarschuwingen, tafels, laposta, controles, tabellen, uitleg, inst, seed}
   let tab = "perRonde";
+
+  // ---------------------------------------------------------- instellingen (gangen, tijden, silo's)
+
+  const SLEUTEL = "running-dinner-instellingen";
+  function bewaardeInst() {
+    try { return RD.instellingen(JSON.parse(localStorage.getItem(SLEUTEL) || "{}")); } catch (e) { return RD.instellingen(); }
+  }
+  function toonInst(inst) {
+    const body = $("inst-rijen");
+    body.textContent = "";
+    inst.rondes.forEach((r, i) => {
+      const tr = el("tr");
+      tr.appendChild(el("td", "Ronde " + (i + 1)));
+      for (const [veld, klasse, label] of [["naam", "naam", "naam van de gang"], ["tijd", "tijd", "gasten komen om"], ["envelop", "tijd", "envelop openen om"]]) {
+        const td = el("td");
+        if (veld !== "envelop" || i < 3) {
+          const inp = el("input", null, klasse);
+          inp.value = r[veld]; inp.dataset.ronde = i; inp.dataset.veld = veld;
+          inp.setAttribute("aria-label", "Ronde " + (i + 1) + ", " + label);
+          td.appendChild(inp);
+        }
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    });
+    $("mix").checked = inst.mix;
+  }
+  function leesInst() {
+    const eigen = { rondes: [{}, {}, {}, {}], mix: $("mix").checked };
+    document.querySelectorAll("#inst-rijen input").forEach((inp) => { eigen.rondes[+inp.dataset.ronde][inp.dataset.veld] = inp.value; });
+    const inst = RD.instellingen(eigen);
+    try { localStorage.setItem(SLEUTEL, JSON.stringify(inst)); } catch (e) { /* zonder opslag werkt de pagina ook */ }
+    return inst;
+  }
 
   function el(tag, tekst, klasse) {
     const e = document.createElement(tag);
@@ -164,17 +229,26 @@
   function deelIn() {
     $("meldingen").textContent = "";
     const s = stand;
-    s.tafels = RD.maakIndeling(s.koppels, s.seed);
+    s.inst = leesInst();
+    s.tafels = RD.maakIndeling(s.koppels, s.seed, s.inst);
     if (!s.tafels) {
-      melding("fout", "De kookrondes zijn niet te verdelen: te veel koppels verzorgden vorig jaar dezelfde ronde. Per ronde zijn precies " + s.koppels.length / 4 + " gastkoppels nodig.");
+      melding("fout", "De kookrondes zijn niet te verdelen: te veel koppels kunnen of willen alleen dezelfde ronde koken. Per ronde zijn precies " + s.koppels.length / 4 + " gastkoppels nodig. Kijk de kolom beperkingen na.");
+      $("na-indeling").hidden = true;
+      $("downloads").hidden = true;
       return;
     }
-    s.laposta = RD.lapostaRijen(s.koppels, s.tafels);
-    s.controles = RD.controleer(s.koppels, s.tafels, s.laposta);
-    s.tabellen = RD.tabellen(s.koppels, s.tafels);
+    s.laposta = RD.lapostaRijen(s.koppels, s.tafels, s.inst);
+    s.controles = RD.controleer(s.koppels, s.tafels, s.laposta, s.inst);
+    s.tabellen = RD.tabellen(s.koppels, s.tafels, s.inst);
+    s.uitleg = RD.toelichting(s.koppels, s.tafels, s.inst);
     const n = s.koppels.length, fout = s.controles.reduce((t, c) => t + c[1].length, 0);
     if (fout) melding("fout", "Let op: " + fout + " overtreding(en) gevonden. Gebruik deze indeling niet en bekijk het tabblad Controle.");
     else melding("goed", "Indeling gemaakt en alle controles geslaagd: " + n + " koppels (" + 2 * n + " personen), " + n / 4 + " tafels per ronde.");
+    melding("info", "Kookrondes: " + s.uitleg.regels[0] + (s.uitleg.afwijkers.length ? " Deze koppels schuiven niet één gang door:" : ""), s.uitleg.afwijkers);
+    if (s.uitleg.nieuwHg.length) melding("let-op", "Nieuwe deelnemers die toch het hoofdgerecht koken, omdat het anders niet uitkomt:", s.uitleg.nieuwHg);
+    melding(s.inst.mix && s.uitleg.silo.gemiddeld === 0 ? "let-op" : "info", s.uitleg.siloTekst);
+    const teLang = RD.teLangVoorLaposta(s.laposta);
+    if (teLang.length) melding("let-op", "De dieetwensen voor deze gastkoppels zijn langer dan 255 tekens. Een gewoon tekstveld in Laposta kapt dat af. Maak het veld dieetwensen_gasten in Laposta aan als 'Lange tekst', of kort de wensen in de lijst in:", Array.from(new Set(teLang.map((r) => r.namen))));
     if (s.reserves.length) melding("let-op", "Reservekoppel (laatste inschrijvers, niet ingedeeld en niet in het Laposta-bestand):", s.reserves.map((k) => k.namen + " (" + k.id + ")"));
     if (s.waarschuwingen.length) melding("let-op", "Let op:", s.waarschuwingen);
     $("na-indeling").hidden = false;
@@ -187,6 +261,7 @@
     let rijen;
     if (tab === "controle") rijen = [["Controle", "Uitslag", "Overtredingen"]].concat(stand.controles.map((c) => [c[0], c[1].length ? "FOUT" : "OK", c[1].join("; ")]));
     else rijen = stand.tabellen[tab];
+    $("legenda").hidden = tab !== "perRonde";
     const tabel = el("table"), kop = el("tr");
     rijen[0].forEach((k) => kop.appendChild(el("th", k)));
     const thead = el("thead"); thead.appendChild(kop); tabel.appendChild(thead);
@@ -194,7 +269,12 @@
     rijen.slice(1).forEach((rij, i) => {
       const tr = el("tr");
       if (tab === "perRonde" && i > 0 && rij[0] !== rijen[i][0]) tr.className = "nieuw-ronde";
-      rij.forEach((c) => tr.appendChild(el("td", String(c))));
+      rij.forEach((c, kolom) => {
+        const td = el("td", String(c));
+        if (tab === "perRonde" && kolom >= 4 && kolom <= 7) td.className = "g" + stand.tabellen.groepen[i + 1][kolom - 4];
+        if (tab === "perRonde" && kolom === 8) td.className = "wens";
+        tr.appendChild(td);
+      });
       body.appendChild(tr);
     });
     tabel.appendChild(body);
@@ -247,8 +327,8 @@
     XLSX.writeFile(wb, naam);
   }
   const lapostaTabel = () => [Object.keys(stand.laposta[0])].concat(stand.laposta.map((r) => Object.values(r)));
-  const KOP = ["id", "namen", "adres", "email", "allergieen", "ronde_vorig_jaar"];
-  const KOP_VOL = ["id", "namen", "adres", "email", "tweede_mailadres", "allergieen", "ronde_vorig_jaar", "beperkingen", "gekookt_dit_jaar"];
+  const KOP = ["id", "namen", "adres", "email", "tweede_mailadres", "dieetwens_a", "dieetwens_b", "ronde_vorig_jaar"];
+  const KOP_VOL = ["id", "namen", "adres", "email", "tweede_mailadres", "dieetwens_a", "dieetwens_b", "ronde_vorig_jaar", "beperkingen", "gekookt_dit_jaar"];
 
   function demoRijen() {
     const voor = ["Anna", "Bram", "Carlijn", "Daan", "Eva", "Finn", "Greetje", "Hugo", "Iris", "Jesse", "Kim", "Lars", "Marit", "Niels", "Olga", "Pim", "Roos", "Sem", "Tessa", "Ward"];
@@ -257,9 +337,10 @@
     const wens = ["notenallergie", "vegetarisch", "glutenvrij", "lactose-intolerant", "geen varkensvlees", "veganistisch"];
     const rijen = [KOP];
     for (let i = 1; i <= 48; i++) {
-      rijen.push(["K" + String(i).padStart(2, "0"), voor[i % 20] + " en " + voor[(i * 7 + 3) % 20] + " " + achter[i % 8],
-        straat[i % 6] + " " + (i * 3 + 1) + ", Voorbeelddorp", "koppel" + i + "@example.nl",
-        i % 4 === 0 ? wens[(i / 4) % 6] : "", i % 9 === 0 ? "" : String(1 + (i * 5) % 4)]);
+      rijen.push(["K" + String(i).padStart(2, "0"), voor[i % 20] + " en " + voor[(i * 7 + 3) % 20] + " " + achter[(i + Math.floor(i / 8)) % 8],
+        straat[i % 6] + " " + (i * 3 + 1) + ", Voorbeelddorp", "koppel" + i + "@example.nl", i % 3 ? "partner" + i + "@example.nl" : "",
+        i % 4 === 0 ? wens[(i / 4) % 6] : "", i % 8 === 0 ? wens[(i / 8) % 6] : i % 7 === 0 ? wens[i % 6] : "",
+        i % 9 === 0 ? "" : String(1 + (i * 5) % 4)]);
     }
     return rijen;
   }
@@ -277,22 +358,32 @@
   window.addEventListener("drop", (e) => e.preventDefault());
 
   $("voorbeeld").addEventListener("click", () => excel("deelnemers_voorbeeld.xlsx", [["Deelnemers",
-    [KOP_VOL, ["1", "Anna en Bram Voorbeeld", "Molenweg 3, Voorbeelddorp", "anna@example.nl", "bram@example.nl", "notenallergie", "2", "", ""],
-      ["2", "Carlijn en Daan Fictief", "Parklaan 12, Voorbeelddorp", "carlijn@example.nl", "", "", "", "niet ronde 3", ""]], [8, 30, 34, 30, 30, 30, 18, 22, 18]]]));
+    [KOP_VOL, ["1", "Anna en Bram Voorbeeld", "Molenweg 3, Voorbeelddorp", "anna@example.nl", "bram@example.nl", "allergisch voor noten", "", "2", "", ""],
+      ["2", "Carlijn en Daan Fictief", "Parklaan 12, Voorbeelddorp", "carlijn@example.nl", "", "eet geen vlees", "eet geen vlees", "", "niet ronde 3", ""],
+      ["3", "Eva en Finn Verzonnen", "Dorpsstraat 8, Voorbeelddorp", "eva@example.nl", "finn@example.nl", "", "", "4", "wil ronde 2", ""]], [8, 30, 34, 30, 30, 30, 30, 18, 22, 18]]]));
   $("demo").addEventListener("click", () => verwerk(demoRijen()));
   $("opnieuw").addEventListener("click", () => { stand.seed++; deelIn(); });
+  toonInst(bewaardeInst());
+  $("inst").addEventListener("change", () => { leesInst(); if (stand) deelIn(); });
+  $("inst-terug").addEventListener("click", () => { toonInst(RD.instellingen()); leesInst(); if (stand) deelIn(); });
   document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.tab; toonTab(); }));
 
   $("dl-indeling").addEventListener("click", () => {
-    const bladen = [["Per ronde", stand.tabellen.perRonde, [7, 28, 7, 32, 34, 34, 34, 34, 60]],
-      ["Per koppel", stand.tabellen.perKoppel, [7, 34, 36, 50, 50, 50, 50]],
+    const bladen = [["Per ronde", stand.tabellen.perRonde, [9, 7, 7, 32, 34, 44, 44, 44, 70]],
+      ["Per koppel", stand.tabellen.perKoppel, [7, 34, 14, 44, 16, 50, 50, 50, 50]],
       ["Controle", [["Controle", "Uitslag", "Overtredingen"]].concat(stand.controles.map((c) => [c[0], c[1].length ? "FOUT" : "OK", c[1].join("\n")])), [75, 10, 90]]];
     if (stand.reserves.length) bladen.push(["Reserve", [["ID", "Namen", "E-mail"]].concat(stand.reserves.map((k) => [k.id, k.namen, k.email])), [8, 34, 34]]);
     excel("indeling.xlsx", bladen);
   });
   $("dl-laposta").addEventListener("click", () => opslaan("laposta_import.csv", RD.naarCsv(lapostaTabel()), "text/csv;charset=utf-8"));
-  $("dl-laposta-xlsx").addEventListener("click", () => excel("laposta_import.xlsx", [["Laposta", lapostaTabel(), [32, 34, 10, 28, 70]]]));
-  $("dl-rapport").addEventListener("click", () => opslaan("controlerapport.txt", RD.rapportTekst(stand.koppels, stand.reserves, stand.controles, stand.waarschuwingen), "text/plain;charset=utf-8"));
+  $("dl-laposta-xlsx").addEventListener("click", () => excel("laposta_import.xlsx", [["Laposta", lapostaTabel(), [32, 34, 10, 38, 12, 90]]]));
+  $("dl-loop").addEventListener("click", () => {
+    const delen = RD.loopbriefjesDocx(RD.loopbriefjes(stand.koppels, stand.tafels, stand.inst));
+    const zip = XLSX.CFB.utils.cfb_new(), tekens = new TextEncoder();
+    for (const pad in delen) XLSX.CFB.utils.cfb_add(zip, pad, tekens.encode(delen[pad]));
+    opslaan("loopbriefjes.docx", new Uint8Array(XLSX.CFB.write(zip, { fileType: "zip", type: "array" })), "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+  });
+  $("dl-rapport").addEventListener("click", () => opslaan("controlerapport.txt", RD.rapportTekst(stand.koppels, stand.reserves, stand.controles, stand.waarschuwingen, stand.uitleg), "text/plain;charset=utf-8"));
   $("dl-historie").addEventListener("click", () => opslaan("rondes_voor_volgend_jaar.csv", RD.naarCsv(stand.tabellen.historie), "text/csv;charset=utf-8"));
 })();
 </script>
